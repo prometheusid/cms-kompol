@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- content -->
+<!-- forum -->
+<div class="content">
+    <section class="forum text-center">
+        <h1 class="">FORUM DISKUSI</h1>
+    </section>
+    <section class="forum_box">
+        <div class="content">
+            <div class="row text-center">
+                <div class="col">
+                    <button class="btn btn-sm btn-primary">Buat Diskusi Baru</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Judul Diskusi</th>
+                                <th scope="col">Tanggal</th>
+                                <th scope="col">Author</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td><a href="{{ url_for('detail')}}">Memperkuat hubungan pemerintah dengan
+                                        masyarakat</a>
+                                </td>
+                                <td>21 Desember 2022</td>
+                                <td>Ujang Rukmana</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- end forum -->
+<!-- end content -->
+
+{% endblock%}

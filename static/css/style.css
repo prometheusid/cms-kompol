@@ -1,0 +1,23 @@
+.navbar {
+    position: sticky;
+}
+.jumbotron {
+    padding: 2rem 1rem;
+    /* height: 350px; */
+    background-color: #e2edff;
+}
+.ranks {
+    padding: 2rem 1rem;
+    height: 350px;
+    background-color: white;
+}
+.profile {
+    width: 200px;
+}
+.forum {
+    padding: 2rem 1rem;
+    background-color: #e2edff;
+}
+.forum_box {
+    padding: 2rem 1rem;
+}

@@ -13,9 +13,9 @@ def forum():
     return render_template('forum/index.html')
 
 
-@app.route("/forum/forumdetail")
-def detail():
-    return render_template('forum/forumdetail.html')
+@app.route("/forum/thread")
+def thread():
+    return render_template('forum/thread.html')
 
 
 @app.route("/laporankunjungan")

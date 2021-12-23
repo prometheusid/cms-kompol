@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="top-bar">
+        <h1>
+            Forum
+        </h1>
+    </div>
+    <div class="main">
+        <div class="header">
+            <h4 class="forum-title">
+                Judul Diskusi / Forum
+            </h4>
+        </div>
+        <P>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur assumenda dicta corrupti. Assumenda
+            sint dolor eum aliquid non. Dolore consequuntur ut hic asperiores cum minus amet fugit dolores voluptatum,
+            commodi velit autem nesciunt necessitatibus ea quod placeat, totam quasi expedita soluta esse facilis magnam
+            nemo deleniti debitis? Velit delectus illo hic doloremque! Inventore fugit numquam laboriosam libero quam
+            deserunt, sunt quasi! Vel sequi aliquid id magni harum voluptatem consectetur incidunt beatae? Ut soluta
+            corporis, nesciunt in modi, fugiat nam dolorum porro quidem repellendus itaque neque blanditiis delectus
+            exercitationem deserunt, eligendi laboriosam. Quasi a ducimus deserunt ab delectus earum amet laboriosam.
+        </P>
+        <div class="bottom">
+            <p class="timestamp">
+                10/10/2022
+            </p>
+            <p class="comment-count">
+                2 Comment
+            </p>
+        </div>
+        <textarea></textarea>
+        <button class="button-comment">add comment</button>
+        <div class="comments">
+            <div class="comment-content">
+                wow amazing, keep it up
+            </div>
+            <div class="top-comment">
+                <p class="user">
+                    user10
+                </p>
+                <p class="comment-ts">
+                    10/12/2022
+                </p>
+            </div>
+            <div class="comment-content">
+                Bagus banget,saya setuju
+            </div>
+            <div class="top-comment">
+                <p class="user">
+                    user200
+                </p>
+                <p class="comment-ts">
+                    11/12/2022
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+<style>
+    textarea {
+        width: 80%;
+        height: 80px;
+    }
+
+    .top-bar {
+    background-color: skyblue;
+    }
+
+    .main {
+        background-color: #F6F6EF;
+        padding: 10px 40px;
+    }
+
+    .comments {
+        margin: 40px 0;
+    }
+
+    .comment {
+        margin: 10px 0;
+    }
+
+    .row {
+        padding: 5px 0;
+    }
+
+    .bottom,
+    .top-comment {
+        display: flex;
+        color: grey;
+        font-size: 12px;
+    }
+
+    .timestamp {
+        padding-right: 10px;
+    }
+
+    .comment-ts {
+        padding-left: 10px;
+    }
+
+    .forum-title {
+        margin: 0;
+    }
+
+    .button-comment {
+        display: block;
+        margin: 10px 0;
+    }
+</style>
+{% endblock%}

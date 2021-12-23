@@ -2,44 +2,72 @@
 {% block content %}
 <!-- content -->
 <!-- forum -->
-<div class="content">
-    <section class="forum text-center">
-        <h1 class="">FORUM DISKUSI</h1>
-    </section>
-    <section class="forum_box">
-        <div class="content">
-            <div class="row text-center">
-                <div class="col">
-                    <button class="btn btn-sm btn-primary">Buat Diskusi Baru</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Judul Diskusi</th>
-                                <th scope="col">Tanggal</th>
-                                <th scope="col">Author</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td><a href="{{ url_for('detail')}}">Memperkuat hubungan pemerintah dengan
-                                        masyarakat</a>
-                                </td>
-                                <td>21 Desember 2022</td>
-                                <td>Ujang Rukmana</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="container">
+    <div class="top-bar">
+        <h1 class="forum">
+            Forum
+        </h1>
+    </div>
+    <div class="main">
+        <ol>
+            <li class="row">
+                <a class="thread-link" href="{{url_for('thread')}}">
+                    <h4 class="-forum-title">
+                        Judul Diskusi / Forum
+                    </h4>
+                    <div class="bottom">
+                        <p class="timestamp">
+                            10/10/2022
+                        </p>
+                        <p class="comment-count">
+                            2 comments
+                        </p>
+                    </div>
+                </a>
+            </li>
+        </ol>
+    </div>
 </div>
+<style>
+    .thread-link {
+        text-decoration: none;
+        color: black;
+    }
+
+    .forum-title,
+    ol {
+        margin: 0;
+    }
+
+    .comment-count {
+        margin: 5px 0;
+    }
+
+    .top-bar {
+        background-color: skyblue;
+    }
+
+    .main {
+        background-color: #F6F6EF;
+        padding: 10px 15px;
+    }
+
+    .row {
+        padding: 5px 0;
+    }
+
+    .bottom {
+        display: flex;
+        color: grey;
+        font-size: 12px;
+    }
+
+    .timestamp {
+        padding-right: 10px;
+        margin: 5px 0;
+    }
+</style>
+
 <!-- end forum -->
 <!-- end content -->
 

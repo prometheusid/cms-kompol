@@ -1,71 +1,71 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <!-- content -->
 <!-- forum -->
-<div class="container">
-    <div class="top-bar">
-        <h1 class="forum">
-            Forum
-        </h1>
+<div class="container-fluid">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Forum</h1>
+    <!-- <a
+      href="#"
+      class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+      ><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a
+    > -->
+  </div>
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <ol>
+        <li class="row">
+          <a class="thread-link" href="{{url_for('thread')}}">
+            <div class="row">
+              <h4 class="forum-title">Judul Diskusi / Forum</h4>
+              <p class="comment-count">10/10/2022</p>
+            </div>
+            <div class="bottom">
+              <p class="timestamp">2 comments</p>
+            </div>
+          </a>
+        </li>
+      </ol>
     </div>
-    <div class="main">
-        <ol>
-            <li class="row">
-                <a class="thread-link" href="{{url_for('thread')}}">
-                    <h4 class="-forum-title">
-                        Judul Diskusi / Forum
-                    </h4>
-                    <div class="bottom">
-                        <p class="timestamp">
-                            10/10/2022
-                        </p>
-                        <p class="comment-count">
-                            2 comments
-                        </p>
-                    </div>
-                </a>
-            </li>
-        </ol>
-    </div>
+  </div>
 </div>
 <style>
-    .thread-link {
-        text-decoration: none;
-        color: black;
-    }
+  .thread-link {
+    text-decoration: none;
+    color: black;
+  }
 
-    .forum-title,
-    ol {
-        margin: 0;
-    }
+  .forum-title,
+  ol {
+    margin: 0;
+  }
 
-    .comment-count {
-        margin: 5px 0;
-    }
+  .comment-count {
+    margin-left: 78rem;
+  }
 
-    .top-bar {
-        background-color: skyblue;
-    }
+  .top-bar {
+    background-color: skyblue;
+  }
 
-    .main {
-        background-color: #F6F6EF;
-        padding: 10px 15px;
-    }
+  .main {
+    background-color: #f6f6ef;
+    padding: 10px 15px;
+  }
 
-    .row {
-        padding: 5px 0;
-    }
+  .row {
+    padding: 5px 0;
+  }
 
-    .bottom {
-        display: flex;
-        color: grey;
-        font-size: 12px;
-    }
+  .bottom {
+    display: flex;
+    color: grey;
+    font-size: 12px;
+  }
 
-    .timestamp {
-        padding-right: 10px;
-        margin: 5px 0;
-    }
+  .timestamp {
+    margin-top: -10px;
+    margin-left: -15px;
+  }
 </style>
 
 <!-- end forum -->

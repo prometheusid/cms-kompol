@@ -86,3 +86,13 @@ def thread():
 @app.route("/laporankunjungan")
 def laporankunjungan():
     return render_template('laporankunjungan/index.html')
+
+
+@app.route("/info")
+def info():
+    return render_template('info/index.html')
+
+
+@app.route("/info/tambahinfo")
+def tambahinfo():
+    return render_template('/info/tambahinfo.html')

@@ -1,18 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import bcrypt
-import mysql.connector as mysql
-
-mysql_connection = mysql.connect(
-    host="localhost",
-    user="root",
-    passwd="",
-    database="db_kompol"
-)
-
-cursor = mysql_connection.cursor(buffered=True)
+from flask_mysqldb import MySQL,MySQLdb
 
 app = Flask(__name__)
-
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'db_kompol'
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+mysql = MySQL(app)
+app.secret_key = '\x0c,\x99\xd9\x8d\x01M\xa8B\xcb+\x9d\x9ee\x95M}\xfe8YMW\x1a\xb6'
 
 @app.route("/")
 def index():
@@ -29,10 +26,10 @@ def registrasi():
         password = request.form['password'].encode('utf-8')
         hash_password = bcrypt.hashpw(password, bcrypt.gensalt())
 
-        
-        cursor.execute("INSERT INTO users (nama_user, email_user, password) VALUES (%s,%s,%s)",
-                    (name, email, hash_password))
-        mysql_connection.commit()
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO users (nama_user, email_user, password) VALUES (%s,%s,%s)",
+                    (name, email, hash_password,))
+        mysql.connection.commit()
         session['name'] = request.form['name']
         session['email'] = request.form['email']
         return redirect(url_for('dashboard/index.html'))
@@ -44,13 +41,15 @@ def login():
         email = request.form['email']
         password = request.form['password'].encode('utf-8')
 
-        cursor.execute("SELECT * FROM users WHERE email_user=%s", (email,))
-        user = cursor.fetchone()
-        cursor.close()
+        curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        curl.execute("SELECT * FROM users WHERE email_user=%s",(email,))
+        user = curl.fetchone()
+        curl.close()
+
         if len(user) > 0:
             if bcrypt.hashpw(password, user["password"].encode('utf-8')) == user["password"].encode('utf-8'):
-                session['name'] = user['name']
-                session['email'] = user['email']
+                session['name'] = user['nama_user']
+                session['email'] = user['email_user']
                 return render_template("dashboard/index.html")
             else:
                 return "Error password and email not match"
@@ -65,8 +64,8 @@ def logout():
     return render_template("index.html")
 
 if __name__ == '__main__':
-    app.secret_key = b'\xf5q\xea0\xb5R'
-    app.run(debug=True)
+    app.debug = True
+    app.run()
 
 @app.route("/dashboard")
 def dashboard():

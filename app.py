@@ -26,3 +26,8 @@ def laporankunjungan():
 @app.route("/info")
 def info():
     return render_template('info/index.html')
+
+
+@app.route("/info/tambahinfo")
+def tambahinfo():
+    return render_template('/info/tambahinfo.html')

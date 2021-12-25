@@ -21,3 +21,40 @@
 .forum_box {
     padding: 2rem 1rem;
 }
+.thread-link {
+    text-decoration: none;
+    color: black;
+  }
+
+  .forum-title,
+  ol {
+    margin: 0;
+  }
+
+  .comment-count {
+    margin-left: 5;
+  }
+
+  .top-bar {
+    background-color: skyblue;
+  }
+
+  .main {
+    background-color: #f6f6ef;
+    padding: 10px 15px;
+  }
+
+  .row {
+    padding: 5px 0;
+  }
+
+  .bottom {
+    display: flex;
+    color: grey;
+    font-size: 12px;
+  }
+
+  .timestamp {
+    margin-top: -10px;
+    margin-left: -15px;
+  }

@@ -1,26 +1,27 @@
 {% extends 'base.html' %} {% block content %}
 <!-- content -->
 <!-- forum -->
-<div class="container-fluid">
-  <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Forum</h1>
-    <!-- <a
-      href="#"
-      class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
-      ><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a
-    > -->
+<div class="container-sm">
+  <div
+    class="d-sm-flex align-items-center justify-content-between mb-4"
+    style="margin-top: 2rem"
+  >
+    <h1 class="h3 mb-0 text-white-800">Forum</h1>
+    <a
+        href="#"
+        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+        ><i class="fas fa-plus"></i>&nbsp; Tambah Baru</a
+      >
   </div>
   <div class="card shadow mb-4">
     <div class="card-body">
       <ol>
         <li class="row">
           <a class="thread-link" href="{{url_for('thread')}}">
-            <div class="row">
-              <h4 class="forum-title">Judul Diskusi / Forum</h4>
-              <p class="comment-count">10/10/2022</p>
-            </div>
+            <h4 class="forum-title">Judul Diskusi / Forum</h4>
             <div class="bottom">
-              <p class="timestamp">2 comments</p>
+              <p style="margin-right: 1.5em">10/10/2022</p>
+              <p class="comment-count">2 comments</p>
             </div>
           </a>
         </li>
@@ -28,46 +29,6 @@
     </div>
   </div>
 </div>
-<style>
-  .thread-link {
-    text-decoration: none;
-    color: black;
-  }
-
-  .forum-title,
-  ol {
-    margin: 0;
-  }
-
-  .comment-count {
-    margin-left: 78rem;
-  }
-
-  .top-bar {
-    background-color: skyblue;
-  }
-
-  .main {
-    background-color: #f6f6ef;
-    padding: 10px 15px;
-  }
-
-  .row {
-    padding: 5px 0;
-  }
-
-  .bottom {
-    display: flex;
-    color: grey;
-    font-size: 12px;
-  }
-
-  .timestamp {
-    margin-top: -10px;
-    margin-left: -15px;
-  }
-</style>
-
 <!-- end forum -->
 <!-- end content -->
 

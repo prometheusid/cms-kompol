@@ -82,7 +82,7 @@ def dashboard():
 def forum():
     return render_template('forum/index.html')
 
-@app.route("/forum")
+@app.route("/forum/tambahforum")
 def tambahforum():
     return render_template('forum/forum.html')
 

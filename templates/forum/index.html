@@ -45,45 +45,6 @@
       href="{{url_for ('static', filename='css/sb-admin-2.min.css')}}"
       rel="stylesheet"
     />
-
-    <style>
-      .thread-link {
-        text-decoration: none;
-        color: black;
-      }
-
-      .forum-title,
-      ol {
-        margin: 0;
-      }
-
-      .comment-count {
-        margin-left: 55rem;
-      }
-
-      .top-bar {
-        background-color: skyblue;
-      }
-
-      .main {
-        background-color: #f6f6ef;
-        padding: 10px 15px;
-      }
-
-      .row {
-        padding: 5px 0;
-      }
-
-      .bottom {
-        display: flex;
-        color: grey;
-        font-size: 12px;
-      }
-
-      .timestamp {
-        margin-top: -10px;
-      }
-    </style>
   </head>
 
   <body class="bg-gradient-primary">
@@ -145,7 +106,7 @@
       </div>
     </nav>
     <!-- end Navbar -->
-    <div class="jumbotron">
+    <div class="container-sm">
       <div
         class="d-sm-flex align-items-center justify-content-between mb-4"
         style="margin-top: 2rem"
@@ -162,12 +123,10 @@
           <ol>
             <li class="row">
               <a class="thread-link" href="{{url_for('thread')}}">
-                <div class="row">
                   <h4 class="forum-title">Judul Diskusi / Forum</h4>
-                  <p class="comment-count">10/10/2022</p>
-                </div>
                 <div class="bottom">
-                  <p class="timestamp">2 comments</p>
+                  <p style="margin-right: 1.5em;">10/10/2022</p>
+                  <p class="comment-count">2 comments</p>
                 </div>
               </a>
             </li>

@@ -48,6 +48,7 @@ def login():
 
         if len(user) > 0:
             if bcrypt.hashpw(password, user["password"].encode('utf-8')) == user["password"].encode('utf-8'):
+                session['id'] = user['user_id']
                 session['name'] = user['nama_user']
                 session['email'] = user['email_user']
                 return render_template("dashboard/index.html")
@@ -71,11 +72,14 @@ if __name__ == '__main__':
 def dashboard():
     return render_template('dashboard/index.html')
 
-
+""" Forum """
 @app.route("/forum")
 def forum():
     return render_template('forum/index.html')
 
+@app.route("/forum")
+def tambahforum():
+    return render_template('forum/forum.html')
 
 @app.route("/forum/thread")
 def thread():
@@ -86,11 +90,9 @@ def thread():
 def laporankunjungan():
     return render_template('laporankunjungan/index.html')
 
-
 @app.route("/info")
 def info():
     return render_template('info/index.html')
-
 
 @app.route("/info/tambahinfo")
 def tambahinfo():

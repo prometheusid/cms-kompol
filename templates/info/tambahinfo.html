@@ -3,17 +3,19 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Judul Info</label>
-                <input type="text" class="form-control" id="judul-info">
-            </div>
-            <div class="mb-3">
-                <label for="isi-info" class="form-label">Isi Info</label>
-                <textarea class="form-control" id="isi-info" rows="3"></textarea>
-            </div>
-            <button type="submit" value="submit" class="btn btn-primary">
-                Simpan
-            </button>
+            <form action="/info/tambahinfo" method="POST">
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Judul Info</label>
+                    <input type="text" class="form-control" id="judul-info" name="judul-info">
+                </div>
+                <div class="mb-3">
+                    <label for="isi-info" class="form-label">Isi Info</label>
+                    <textarea class="form-control" id="isi-info" rows="3" name="isi-info"></textarea>
+                </div>
+                <button type="submit" name="submit" class="btn btn-primary">
+                    Simpan
+                </button>
+            </form>
         </div>
     </div>
 </div>

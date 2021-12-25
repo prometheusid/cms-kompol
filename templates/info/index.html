@@ -8,22 +8,26 @@
             </button>
         </div>
         <div class="row mt-3">
+            {% for row in data%}
             <div class="card border-info">
                 <div class="card-header">
                     <div class="timestamp">
-                        10/20/2021
+                        {{row['created_at']}}
+                    </div>
+                    <div class="timestamp">
+                        {{row['user_id']}}
                     </div>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">JUDUL INFO</h5>
+                    <h5 class="card-title">{{row['judul_info']}}</h5>
                     <p class="card-text">
                         <br>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero vitae cumque rem, est minus eos
-                        quaerat molestias hic quis ad ratione laborum dolorum nihil facilis maxime, optio doloremque at
-                        incidunt.
+                        {{row['isi_info']}}
                     </p>
                 </div>
             </div>
+            {% endfor %}
+
         </div>
     </div>
 </div>

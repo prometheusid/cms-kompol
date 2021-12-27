@@ -1,9 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import bcrypt
+from flask_sqlalchemy import SQLAlchemy
 from flask_mysqldb import MySQL, MySQLdb
 from datetime import datetime
 
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+MySQLdb://root:@localhost/db_kompol'
+
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
@@ -77,14 +81,19 @@ if __name__ == '__main__':
 def dashboard():
     return render_template('dashboard/index.html')
 
+
 """ Forum """
+
+
 @app.route("/forum")
 def forum():
     return render_template('forum/index.html')
 
+
 @app.route("/forum/tambahforum")
 def tambahforum():
     return render_template('forum/forum.html')
+
 
 @app.route("/forum/thread")
 def thread():
@@ -95,10 +104,17 @@ def thread():
 def laporankunjungan():
     return render_template('laporankunjungan/index.html')
 
-@app.route("/info")
+
+@app.route("/laporankunjungan/tambahlaporankunjungan")
+def tambahlaporankunjungan():
+    return render_template('laporankunjungan/tambahlaporankunjungan.html')
+
+
+@app.route("/info/")
 def info():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * from info")
+    cur.execute(
+        "SELECT * FROM users INNER JOIN info ON users.user_id=info.user_id")
     data = cur.fetchall()
     return render_template('info/index.html', data=data)
 
@@ -118,3 +134,18 @@ def tambahinfo():
         mysql.connection.commit()
 
     return render_template('/info/tambahinfo.html')
+
+
+@app.route("/info/detail", methods=["GET", "POST"])
+def detail():
+
+    if request.method == 'POST':
+        infid = request.form['infoid']
+        cur = mysql.connection.cursor()
+        cur = mysql.connection.cursor()
+        cur.execute(
+            "SELECT * FROM users INNER JOIN info ON users.user_id=info.user_id")
+        user = cur.fetchone()
+        cur.execute("SELECT * FROM info WHERE info_id='"+infid+"'")
+        data = cur.fetchone()
+        return render_template('/info/detailinfo.html', data=data, user=user)

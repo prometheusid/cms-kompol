@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form action="/forum/tambah" method="POST">
+                <input type="text" class="form-control" id="idForum" name="idForum" hidden>
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Judul Forum</label>
+                    <input type="text" class="form-control" id="judul" name="judulForum">
+                </div>
+                <div class="mb-3">
+                    <textarea class="form-control" id="summernote" rows="3" name="content"></textarea>
+                </div>
+                <button type="submit" name="submit" class="btn btn-primary">
+                    Simpan
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

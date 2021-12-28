@@ -1,34 +1,32 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container">
-    <div class="col">
-        <div class="row mt-3">
-            <button class="btn btn-primary">
-                <a style="text-decoration: none; color: white;" href="{{ url_for('tambahinfo') }}">Tambah Info Baru</a>
-            </button>
-        </div>
-        <div class="row mt-3">
-            {% for row in data%}
-            <div class="card border-info">
-                <div class="card-header">
-                    <div class="timestamp">
-                        {{row['created_at']}}
-                    </div>
-                    <div class="timestamp">
-                        {{row['user_id']}}
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">{{row['judul_info']}}</h5>
-                    <p class="card-text">
-                        <br>
-                        {{row['isi_info']|safe}}
-                    </p>
-                </div>
-            </div>
-            {% endfor %}
-
+<div class="container-sm">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-top: 2rem">
+        <h1 class="h3 mb-0 text-white-800">INFO PUBLIC</h1>
+        <a href="{{ url_for('tambahinfo') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-plus"></i>&nbsp;
+            Tambah Baru</a>
+    </div>
+    {% for row in data%}
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <ol>
+                <li class="row">
+                    <form action="/info/detail" method="POST">
+                        <input type="hidden" name="infoid" value="{{row['info_id']}}">
+                        <h4 class="forum-title">{{row['judul_info']}}</h4>
+                        <div class="bottom">
+                            <p style="margin-right: 1.5em">{{row['created_at']}}</p>
+                            <p class="comment-count">Oleh : {{row['nama_user']}}</p>
+                        </div>
+                        <button class="btn btn-sm btn-primary" type="submit">Lihat Detail</button>
+                    </form>
+                </li>
+            </ol>
         </div>
     </div>
+    {% endfor %}
 </div>
-{% endblock %}
+<!-- end forum -->
+<!-- end content -->
+{% endblock%}

@@ -82,13 +82,15 @@ def dashboard():
     return render_template('dashboard/index.html')
 
 
-#Forum
+# Forum
 @app.route("/forum")
 def forum():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * from tbl_forum")
+    cur.execute(
+        "SELECT f.user_id, u.nama_user from users u JOIN tbl_forum f ON f.user_id = u.user_id WHERE u.user_id=%s")
     data = cur.fetchall()
     return render_template('forum/index.html', data=data)
+
 
 @app.route("/forum/forumdashboard")
 def forumdashboard():
@@ -96,6 +98,7 @@ def forumdashboard():
     cur.execute("SELECT * from tbl_forum")
     data = cur.fetchall()
     return render_template('forum/forum.html', data=data)
+
 
 @app.route("/forum/tambah", methods=["GET", "POST"])
 def tambahforum():
@@ -108,10 +111,12 @@ def tambahforum():
         ts = session['id']
         waktu = datetime.now()
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO tbl_forum (forum_id, forum_judul, forum_isi, created_by, created_at) VALUES (%s,%s,%s,%s,%s)",
-                    (idForum, judulForum, isi,ts, waktu))
+        cur.execute("INSERT INTO tbl_forum (forum_id, forum_judul, forum_isi, user_id, created_at) VALUES (%s,%s,%s,%s,%s)",
+                    (idForum, judulForum, isi, ts, waktu))
         mysql.connection.commit()
-        return render_template('forum/forum.html')
+        
+    return render_template('forum/forum.html')
+
 
 @app.route("/forum/thread/<int:id>", methods=["GET"])
 def thread(id):
@@ -120,6 +125,7 @@ def thread(id):
     forum = cur.fetchall()
     return render_template('forum/thread.html', forum=forum)
 
+
 @app.route("/forum/threads/<int:id>", methods=["GET"])
 def threads(id):
     cur = mysql.connection.cursor()
@@ -127,7 +133,9 @@ def threads(id):
     forum = cur.fetchall()
     return render_template('forum/threads.html', forum=forum)
 
-#Laporan Kunjungan
+# Laporan Kunjungan
+
+
 @app.route("/laporankunjungan")
 def laporankunjungan():
     return render_template('laporankunjungan/index.html')

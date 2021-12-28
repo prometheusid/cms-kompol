@@ -1,23 +1,37 @@
 {% extends 'base.html' %} {% block content %}
+{%for forum in forum %}
 <div class="container-sm">
-  <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Forum</h1>
+  <div
+    class="d-sm-flex align-items-center justify-content-between mb-4"
+    style="margin-top: 2rem"
+  >
+    <h1 class="h3 mb-0 text-white-800" style="color: black; font-weight: bold">
+      Forum
+    </h1>
+    <!-- <a
+            href="#"
+            class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+            ><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a
+          > -->
   </div>
-
+  
   <div class="card shadow mb-4">
     <div class="card-body">
       <h4 class="forum-title" style="color: black; font-weight: bold">
         {{forum.forum_judul}}
       </h4>
-
       <br />
       <p>{{forum.forum_isi|safe}}</p>
-      <div class="bottom">
-        <p class="timestamp">10/10/2022</p>
-        <p class="comment-count">2 Comment</p>
+      <br />
+      <br />
+      <div class="bottom" style="position: relative; flex-direction: row;">
+        <p id="tgl" style="margin-right: 3em; margin-left: 0px;" class="timestamp">{{forum.created_at}}</p>
+        <p class="timestamp">2 Comment</p>
       </div>
-      <textarea></textarea>
-      <button class="button-comment btn btn-sm btn-primary">add comment</button>
+      <input class="textarea"></input>
+      <button class="button-comment btn btn-sm btn-primary">
+        add comment
+      </button>
       <div class="comments">
         <div class="comment-content">wow amazing, keep it up</div>
         <div class="top-comment">
@@ -32,5 +46,7 @@
       </div>
     </div>
   </div>
+  
 </div>
+{%endfor%}
 {% endblock%}

@@ -113,8 +113,7 @@ def tambahlaporankunjungan():
 @app.route("/info/")
 def info():
     cur = mysql.connection.cursor()
-    cur.execute(
-        "SELECT * FROM users INNER JOIN info ON users.user_id=info.user_id")
+    cur.execute("SELECT * FROM info")
     data = cur.fetchall()
     return render_template('info/index.html', data=data)
 
@@ -125,27 +124,35 @@ def tambahinfo():
         return render_template('info/tambahinfo.html')
     else:
         author = session['id']
+        penulis = session['name']
         judul = request.form['judul-info']
         isi = request.form['isi-info']
         waktu = datetime.now()
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO info (user_id, judul_info, isi_info, created_at) VALUES (%s,%s,%s,%s)",
-                    (author, judul, isi, waktu))
+        cur.execute("INSERT INTO info (user_id, judul_info, isi_info, created_at, penulis) VALUES (%s,%s,%s,%s, %s)",
+                    (author, judul, isi, waktu, penulis))
         mysql.connection.commit()
 
     return render_template('/info/tambahinfo.html')
 
 
-@app.route("/info/detail", methods=["GET", "POST"])
-def detail():
+@app.route("/info/detail/<id>")
+def detail(id):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM info WHERE info_id=%s", (id,))
+    data = cur.fetchone()
+    return render_template('info/detailinfo.html', data=data)
 
-    if request.method == 'POST':
-        infid = request.form['infoid']
-        cur = mysql.connection.cursor()
-        cur = mysql.connection.cursor()
-        cur.execute(
-            "SELECT * FROM users INNER JOIN info ON users.user_id=info.user_id")
-        user = cur.fetchone()
-        cur.execute("SELECT * FROM info WHERE info_id='"+infid+"'")
-        data = cur.fetchone()
-        return render_template('/info/detailinfo.html', data=data, user=user)
+
+# @app.route("/info/detail", methods=["GET", "POST"])
+# def detail():
+
+#     if request.method == 'POST':
+#         infid = request.form['infoid']
+#         cur = mysql.connection.cursor()
+#         cur.execute(
+#             "SELECT * FROM users INNER JOIN info ON users.user_id=info.user_id")
+#         user = cur.fetchone()
+#         cur.execute("SELECT * FROM info WHERE info_id='"+infid+"'")
+#         data = cur.fetchone()
+#         return render_template('/info/detailinfo.html', data=data, user=user)

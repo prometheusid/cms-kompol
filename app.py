@@ -82,7 +82,7 @@ def dashboard():
     return render_template('dashboard/index.html')
 
 
-#Forum
+# Forum
 @app.route("/forum")
 def forum():
     cur = mysql.connection.cursor()
@@ -90,12 +90,14 @@ def forum():
     data = cur.fetchall()
     return render_template('forum/index.html', data=data)
 
+
 @app.route("/forum/forumdashboard")
 def forumdashboard():
     cur = mysql.connection.cursor()
     cur.execute("SELECT * from tbl_forum")
     data = cur.fetchall()
     return render_template('forum/forum.html', data=data)
+
 
 @app.route("/forum/tambah", methods=["GET", "POST"])
 def tambahforum():
@@ -109,9 +111,10 @@ def tambahforum():
         waktu = datetime.now()
         cur = mysql.connection.cursor()
         cur.execute("INSERT INTO tbl_forum (forum_id, forum_judul, forum_isi, created_by, created_at) VALUES (%s,%s,%s,%s,%s)",
-                    (idForum, judulForum, isi,ts, waktu))
+                    (idForum, judulForum, isi, ts, waktu))
         mysql.connection.commit()
         return render_template('forum/forum.html')
+
 
 @app.route("/forum/thread/<int:id>", methods=["GET"])
 def thread(id):
@@ -120,6 +123,7 @@ def thread(id):
     forum = cur.fetchall()
     return render_template('forum/thread.html', forum=forum)
 
+
 @app.route("/forum/threads/<int:id>", methods=["GET"])
 def threads(id):
     cur = mysql.connection.cursor()
@@ -127,7 +131,9 @@ def threads(id):
     forum = cur.fetchall()
     return render_template('forum/threads.html', forum=forum)
 
-#Laporan Kunjungan
+# Laporan Kunjungan
+
+
 @app.route("/laporankunjungan")
 def laporankunjungan():
     return render_template('laporankunjungan/index.html')
@@ -170,17 +176,3 @@ def detail(id):
     cur.execute("SELECT * FROM info WHERE info_id=%s", (id,))
     data = cur.fetchone()
     return render_template('info/detailinfo.html', data=data)
-
-
-# @app.route("/info/detail", methods=["GET", "POST"])
-# def detail():
-
-#     if request.method == 'POST':
-#         infid = request.form['infoid']
-#         cur = mysql.connection.cursor()
-#         cur.execute(
-#             "SELECT * FROM users INNER JOIN info ON users.user_id=info.user_id")
-#         user = cur.fetchone()
-#         cur.execute("SELECT * FROM info WHERE info_id='"+infid+"'")
-#         data = cur.fetchone()
-#         return render_template('/info/detailinfo.html', data=data, user=user)

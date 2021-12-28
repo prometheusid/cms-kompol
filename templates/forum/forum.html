@@ -8,19 +8,21 @@
   >
     <h1 class="h3 mb-0 text-white-800">Forum</h1>
     <a
-        href="#"
-        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
-        ><i class="fas fa-plus"></i>&nbsp; Tambah Baru</a
-      >
+      href="{{ url_for('tambahforum') }}"
+      class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+      ><i class="fas fa-plus"></i>&nbsp; Tambah Baru</a
+    >
   </div>
+  {% for column in data %}
   <div class="card shadow mb-4">
     <div class="card-body">
       <ol>
         <li class="row">
-          <a class="thread-link" href="{{url_for('thread')}}">
-            <h4 class="forum-title">Judul Diskusi / Forum</h4>
+          <a class="thread-link" href="/forum/thread/{{column['forum_id']}}">
+            <h4 class="forum-title">{{column['forum_judul']}}</h4>
+            <h7 class="forum-title">{{column['forum_isi']|safe}}</h7>
             <div class="bottom">
-              <p style="margin-right: 1.5em">10/10/2022</p>
+              <p style="margin-right: 1.5em">{{column['created_at']}}</p>
               <p class="comment-count">2 comments</p>
             </div>
           </a>
@@ -28,6 +30,7 @@
       </ol>
     </div>
   </div>
+  {% endfor %}
 </div>
 <!-- end forum -->
 <!-- end content -->

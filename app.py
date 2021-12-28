@@ -77,23 +77,57 @@ if __name__ == '__main__':
 def dashboard():
     return render_template('dashboard/index.html')
 
-""" Forum """
+
+#Forum
 @app.route("/forum")
 def forum():
-    return render_template('forum/index.html')
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * from tbl_forum")
+    data = cur.fetchall()
+    return render_template('forum/index.html', data=data)
 
-@app.route("/forum/tambahforum")
+@app.route("/forum/forumdashboard")
+def forumdashboard():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * from tbl_forum")
+    data = cur.fetchall()
+    return render_template('forum/forum.html', data=data)
+
+@app.route("/forum/tambah", methods=["GET", "POST"])
 def tambahforum():
-    return render_template('forum/forum.html')
+    if request.method == 'GET':
+        return render_template('forum/tambahbaru.html')
+    else:
+        idForum = request.form['idForum']
+        judulForum = request.form['judulForum']
+        isi = request.form['content']
+        ts = session['id']
+        waktu = datetime.now()
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO tbl_forum (forum_id, forum_judul, forum_isi, created_by, created_at) VALUES (%s,%s,%s,%s,%s)",
+                    (idForum, judulForum, isi,ts, waktu))
+        mysql.connection.commit()
+        return render_template('forum/forum.html')
 
-@app.route("/forum/thread")
-def thread():
-    return render_template('forum/thread.html')
+@app.route("/forum/thread/<int:id>", methods=["GET"])
+def thread(id):
+    cur = mysql.connection.cursor()
+    cur.execute("""SELECT * from tbl_forum WHERE forum_id=%s""", (id,))
+    forum = cur.fetchall()
+    return render_template('forum/thread.html', forum=forum)
 
+@app.route("/forum/threads/<int:id>", methods=["GET"])
+def threads(id):
+    cur = mysql.connection.cursor()
+    cur.execute("""SELECT * from tbl_forum WHERE forum_id=%s""", (id,))
+    forum = cur.fetchall()
+    return render_template('forum/threads.html', forum=forum)
 
+#Laporan Kunjungan
 @app.route("/laporankunjungan")
 def laporankunjungan():
     return render_template('laporankunjungan/index.html')
+
 
 @app.route("/info")
 def info():

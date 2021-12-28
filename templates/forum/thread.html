@@ -1,25 +1,17 @@
 {% extends 'base.html' %} {% block content %}
-<div class="container-fluid">
+<div class="container-sm">
   <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Forum</h1>
   </div>
+
   <div class="card shadow mb-4">
     <div class="card-body">
-      <h4 class="forum-title">Judul Diskusi / Forum</h4>
+      <h4 class="forum-title" style="color: black; font-weight: bold">
+        {{forum.forum_judul}}
+      </h4>
 
-      <p>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur
-        assumenda dicta corrupti. Assumenda sint dolor eum aliquid non. Dolore
-        consequuntur ut hic asperiores cum minus amet fugit dolores voluptatum,
-        commodi velit autem nesciunt necessitatibus ea quod placeat, totam quasi
-        expedita soluta esse facilis magnam nemo deleniti debitis? Velit
-        delectus illo hic doloremque! Inventore fugit numquam laboriosam libero
-        quam deserunt, sunt quasi! Vel sequi aliquid id magni harum voluptatem
-        consectetur incidunt beatae? Ut soluta corporis, nesciunt in modi,
-        fugiat nam dolorum porro quidem repellendus itaque neque blanditiis
-        delectus exercitationem deserunt, eligendi laboriosam. Quasi a ducimus
-        deserunt ab delectus earum amet laboriosam.
-      </p>
+      <br />
+      <p>{{forum.forum_isi|safe}}</p>
       <div class="bottom">
         <p class="timestamp">10/10/2022</p>
         <p class="comment-count">2 Comment</p>
@@ -41,55 +33,4 @@
     </div>
   </div>
 </div>
-<style>
-  textarea {
-    width: 80%;
-    height: 80px;
-  }
-
-  .top-bar {
-    background-color: skyblue;
-  }
-
-  .main {
-    background-color: #f6f6ef;
-    padding: 10px 40px;
-  }
-
-  .comments {
-    margin: 40px 0;
-  }
-
-  .comment {
-    margin: 10px 0;
-  }
-
-  .row {
-    padding: 5px 0;
-  }
-
-  .bottom,
-  .top-comment {
-    display: flex;
-    color: grey;
-    font-size: 12px;
-  }
-
-  .timestamp {
-    padding-right: 10px;
-  }
-
-  .comment-ts {
-    padding-left: 10px;
-  }
-
-  .forum-title {
-    margin: 0;
-  }
-
-  .button-comment {
-    display: block;
-    margin: 10px 0;
-  }
-</style>
 {% endblock%}

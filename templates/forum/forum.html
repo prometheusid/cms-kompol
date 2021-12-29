@@ -6,7 +6,7 @@
     class="d-sm-flex align-items-center justify-content-between mb-4"
     style="margin-top: 2rem"
   >
-    <h1 class="h3 mb-0 text-white-800">Forum</h1>
+    <h1 class="h3 mb-0 text-white-800" style="color: black; font-weight: bold">Forum</h1>
     <a
       href="{{ url_for('tambahforum') }}"
       class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
@@ -19,8 +19,10 @@
       <ol>
         <li class="row">
           <a class="thread-link" href="/forum/thread/{{column['forum_id']}}">
+            <p style="margin-right: 1.5em">{{column['nama_user']}}</p>
             <h4 class="forum-title">{{column['forum_judul']}}</h4>
-            <h7 class="forum-title">{{column['forum_isi']|safe}}</h7>
+            <h7 class="forum-title" style="height: 50%">{{column['forum_isi']|safe}}<span id="dots">...</span></h7>
+            <br>
             <div class="bottom">
               <p style="margin-right: 1.5em">{{column['created_at']}}</p>
               <p class="comment-count">2 comments</p>
@@ -34,5 +36,11 @@
 </div>
 <!-- end forum -->
 <!-- end content -->
+
+<script>
+  function myFunction() {
+    var dots = doucment.getElementById("dots");
+  }
+</script>
 
 {% endblock%}

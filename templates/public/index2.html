@@ -1,0 +1,51 @@
+{% extends '/public/pub_base.html' %}
+
+{% block content %}
+
+<div class="f-container">
+    <div class="l-sdbar">
+        <div class="list-person">
+            <h4>TOP RANK DEWAN</h4>
+            <a href="">Dewan 1</a>
+            <a href="">Dewan 2</a>
+            <a href="">Dewan 3</a>
+            <a href="">Dewan 4</a>
+            <a href="">Dewan 5</a>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="card">
+            <div class="card-header">
+                INFO PUBLIK TERBARU
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{info['judul_info']}}</h5>
+                <p class="card-text">{{info['isi_info']|safe}}</p>
+                <a href="{{ url_for('public_info') }}" class="btn btn-primary">Menuju Info Publik</a>
+            </div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="card-header">
+                FORUM TERBARU
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{data['forum_judul']}}</h5>
+                <p class="card-text">{{data['forum_isi']|safe}}</p>
+                <a href="{{ url_for('public_forum') }}" class="btn btn-primary">Menuju Forum</a>
+            </div>
+        </div>
+    </div>
+    <div class="r-sdbar">
+        <div class="list-person">
+            <h4>TOP RANK PARTAI</h4>
+            <a href="">Partai 1</a>
+            <a href="">Partai 2</a>
+            <a href="">Partai 3</a>
+            <a href="">Partai 4</a>
+            <a href="">Partai 5</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

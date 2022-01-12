@@ -1,0 +1,64 @@
+{% extends '/public/pub_base.html' %}
+
+{% block content %}
+<!-- content -->
+<!-- jumbotron -->
+<section class="jumbotron text-center">
+    <img src="" alt="" class="rounded-circle img-thumbnail" />
+    <h1 class="">KOMUNIKASI POLITIK</h1>
+    <p class="lead">Oleh : Shofa Shofiah</p>
+</section>
+<!-- end jumbotron -->
+
+<!-- rank -->
+<section class="ranks text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col mt-3 mb-3">
+                <h2 class="">RANKING</h2>
+            </div>
+        </div>
+        <div class="row justify-content-center fs-5 text-center">
+            <h4 class="text-center">TOP RANK</h4>
+            <div class="col-4">
+                <p>
+                    Rank Untuk Anggota Dewan
+                </p>
+            </div>
+            <div class="col-4">
+                <p>
+                    Rank untuk anggota partai
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end rank -->
+
+<!-- info publik -->
+<section class="jumbotron text-center">
+    <div class="container">
+        <div class="row text-center mt-3">
+            <div class="col mt-3">
+                <h2 class="">INFO PUBLIK TERBARU</h2>
+            </div>
+        </div>
+        <div class="row text-center mt-3">
+            <div class="col">
+                <p>
+                    <div>
+                        <p>
+                            <h4>{{data['judul_info']}}</h4>
+                        </p>
+                        <p>{{data['isi_info']|safe}}</p>
+                    </div>
+                </p>
+                <a href="{{ url_for('public_info') }}"><button class="btn btn-sm btn-primary">Menuju Info
+                        Publik</button></a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end info publik -->
+<!-- end content -->
+{% endblock %}

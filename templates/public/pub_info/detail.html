@@ -1,0 +1,25 @@
+{% extends '/public/pub_base.html' %}
+{% block content %}
+
+<div class="container">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-top: 2rem">
+        <h1 class="h3 mb-0 text-white-800">INFO PUBLIK</h1>
+        <a href="{{ url_for('tambahinfo') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-plus"></i>&nbsp;
+            Tambah Baru</a>
+    </div>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <p>
+                <h4>{{data['judul_info']}}</h4>
+            </p>
+            <p>{{data['isi_info']|safe}}</p><br>
+            <div class="bottom">
+                <p style="margin-right: 1.5em">{{data['created_at']}}</p>
+                <p class="comment-count">Oleh : {{data['penulis']}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

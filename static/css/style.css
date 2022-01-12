@@ -1,9 +1,12 @@
 .navbar {
     position: sticky;
 }
+a {
+  text-decoration: none;
+  color: black;
+}
 .jumbotron {
     padding: 2rem 1rem;
-    /* height: 350px; */
     background-color: #e2edff;
 }
 .ranks {
@@ -57,4 +60,45 @@
   .timestamp {
     margin-top: -10px;
     margin-left: -15px;
+  }
+
+  .f-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 13px 120px;
+  }
+
+  .l-sdbar {
+    flex-basis: 25%;
+    position: sticky;
+    top: 70px;
+    align-self: flex-start;
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+
+  .r-sdbar {
+    flex-basis: 25%;
+    position: sticky;
+    top: 70px;
+    align-self: flex-start;
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+
+  .main-content {
+    flex-basis: 47%;
+  }
+
+  .list-person a{
+    text-decoration: none;
+    display: flex;
+    margin-bottom: 30px;
+    color: #626262;
+    width: fit-content;
+    text-align: center;
+  }
+
+  .card {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }

@@ -1,0 +1,34 @@
+{% extends '/dashboard/cp_base.html' %}
+{% block content %}
+<div class="container">
+    <div class="col">
+        <div class="row">
+
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Judul</th>
+                        <th scope="col">Tanggal</th>
+                        <th scope="col">author</th>
+                        <th scope="col">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data%}
+                    <tr>
+                        <td>{{row['judul_info']}}</td>
+                        <td>{{row['created_at']}}</td>
+                        <td>{{row['penulis']}}</td>
+                        <td>
+                            <a href="/dashboard/cp_info/delete/{{row['info_id']}}"><button
+                                    class="btn btn-sm btn-danger">Hapus</button></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

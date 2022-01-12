@@ -1,11 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, session, url_for, make_response
 import bcrypt
+from werkzeug.utils import redirect
+from werkzeug.wrappers import response
 from flask_sqlalchemy import SQLAlchemy
 from flask_mysqldb import MySQL, MySQLdb
 from datetime import datetime
 
-app = Flask(__name__)
 
+app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+MySQLdb://root:@localhost/db_kompol'
 
 app.config['MYSQL_HOST'] = 'localhost'
@@ -14,18 +16,32 @@ app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'db_kompol'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 mysql = MySQL(app)
-app.secret_key = '\x0c,\x99\xd9\x8d\x01M\xa8B\xcb+\x9d\x9ee\x95M}\xfe8YMW\x1a\xb6'
+app.secret_key = '\xfd{H\xe5<\x95\xf9\xe3\x96.5\xd1\x01O<!\xd5\xa2\xa0\x9fR"\xa1\xa8'
+
+
+# @app.route("/")
+# def pub_home():
+#     cur = mysql.connection.cursor()
+#     cur.execute("SELECT * FROM info ORDER BY info_id DESC LIMIT 1")
+#     data = cur.fetchone()
+#     return render_template('/public/index.html', data=data)
 
 
 @app.route("/")
-def index():
-    return render_template('index.html')
+def pub_home():
+    title = ("KOMUNIKASi POLITIK")
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM info ORDER BY info_id DESC LIMIT 1")
+    info = cur.fetchone()
+    cur.execute("SELECT * FROM tbl_forum ORDER BY forum_id DESC LIMIT 1")
+    data = cur.fetchone()
+    return render_template('/public/index2.html', data=data, info=info, title=title)
 
 
 @app.route("/registrasi", methods=["GET", "POST"])
 def registrasi():
     if request.method == 'GET':
-        return render_template('registrasi/index.html')
+        return render_template('public/pub_login/registrasi.html')
     else:
         name = request.form['name']
         email = request.form['email']
@@ -38,7 +54,7 @@ def registrasi():
         mysql.connection.commit()
         session['name'] = request.form['name']
         session['email'] = request.form['email']
-        return redirect(url_for('dashboard/index.html'))
+        return redirect(url_for('pub_home'))
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -57,56 +73,46 @@ def login():
                 session['id'] = user['user_id']
                 session['name'] = user['nama_user']
                 session['email'] = user['email_user']
-                return render_template("dashboard/index.html")
+                # return render_template("/public/index.html")
+                return redirect(url_for('pub_home'))
             else:
                 return "Error password and email not match"
         else:
             return "Error user not found"
     else:
-        return render_template("login/index.html")
+        return render_template("/public/pub_login/login.html")
 
 
 @app.route('/logout')
 def logout():
     session.clear()
-    return render_template("index.html")
+    # return render_template("/public/index.html")
+    return redirect(url_for('pub_home'))
 
 
-if __name__ == '__main__':
-    app.debug = True
-    app.run()
-
-
-@app.route("/dashboard")
-def dashboard():
-    return render_template('dashboard/index.html')
-
-
-# Forum
-@app.route("/forum")
-def forum():
-    #cur = mysql.connection.cursor()
-   # cur.execute(
-    #    "SELECT f.user_id, u.nama_user from users u JOIN tbl_forum f ON f.user_id = u.user_id WHERE u.user_id=%s", (id,))
-    #data = cur.fetchall()
+@app.route("/pub_forum")
+def public_forum():
+    title = ("FORUM DISKUSI")
     cur = mysql.connection.cursor()
     cur.execute("SELECT * from tbl_forum")
     data = cur.fetchall()
-    return render_template('forum/index.html', data=data)
+    return render_template('/public/pub_forum/index.html', data=data, title=title)
 
 
-@app.route("/forum/forumdashboard")
-def forumdashboard():
+@app.route("/pub_forum/thread/<int:id>")
+def thread(id):
+    title = ("FORUM DISKUSI")
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * from tbl_forum")
-    data = cur.fetchall()
-    return render_template('forum/forum.html', data=data)
+    cur.execute("SELECT * FROM tbl_forum WHERE forum_id=%s", (id,))
+    data = cur.fetchone()
+    return render_template('/public/pub_forum/thread.html', data=data, title=title)
 
 
-@app.route("/forum/tambah", methods=["GET", "POST"])
+@app.route("/pub_forum/tambah", methods=["GET", "POST"])
 def tambahforum():
+    title = ("FORUM DISKUSI")
     if request.method == 'GET':
-        return render_template('forum/tambahbaru.html')
+        return render_template('public/pub_forum/tambahforum.html', title=title)
     else:
         idForum = request.form['idForum']
         judulForum = request.form['judulForum']
@@ -117,51 +123,32 @@ def tambahforum():
         cur.execute("INSERT INTO tbl_forum (forum_id, forum_judul, forum_isi, user_id, created_at) VALUES (%s,%s,%s,%s,%s)",
                     (idForum, judulForum, isi, ts, waktu))
         mysql.connection.commit()
-        
-    return render_template('forum/forum.html')
+    return render_template('public/pub_forum/tambahforum.html', title=title)
 
 
-
-@app.route("/forum/thread/<int:id>", methods=["GET"])
-def thread(id):
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT * from tbl_forum WHERE forum_id=%s", (id,))
-    forum = cur.fetchall()
-    return render_template('forum/thread.html', forum=forum)
-
-
-@app.route("/forum/threads/<int:id>", methods=["GET"])
-def threads(id):
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT * from tbl_forum WHERE forum_id=%s", (id,))
-    forum = cur.fetchall()
-    return render_template('forum/threads.html', forum=forum)
-
-# Laporan Kunjungan
-
-
-@app.route("/laporankunjungan")
-def laporankunjungan():
-    return render_template('laporankunjungan/index.html')
-
-
-@app.route("/laporankunjungan/tambahlaporankunjungan")
-def tambahlaporankunjungan():
-    return render_template('laporankunjungan/tambahlaporankunjungan.html')
-
-
-@app.route("/info/")
-def info():
+@app.route('/pub_info')
+def public_info():
+    title = ("INFO PUBLIK")
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM info")
     data = cur.fetchall()
-    return render_template('info/index.html', data=data)
+    return render_template('/public/pub_info/index.html', data=data, title=title)
 
 
-@app.route("/info/tambahinfo", methods=["GET", "POST"])
+@app.route('/pub_info/detail/<int:id>')
+def detail(id):
+    title = ("INFO PUBLIK")
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM info WHERE info_id=%s", (id,))
+    data = cur.fetchone()
+    return render_template('/public/pub_info/detail.html', data=data, title=title)
+
+
+@app.route("/pub_info/tambahinfo", methods=["GET", "POST"])
 def tambahinfo():
+    title = ("INFO PUBLIK")
     if request.method == 'GET':
-        return render_template('info/tambahinfo.html')
+        return render_template('/public/pub_info/tambahinfo.html', title=title)
     else:
         author = session['id']
         penulis = session['name']
@@ -172,13 +159,44 @@ def tambahinfo():
         cur.execute("INSERT INTO info (user_id, judul_info, isi_info, created_at, penulis) VALUES (%s,%s,%s,%s, %s)",
                     (author, judul, isi, waktu, penulis))
         mysql.connection.commit()
+    return render_template('/public/pub_info/tambahinfo.html', title=title)
 
-    return render_template('/info/tambahinfo.html')
+
+# dashboard / cpanel admin
+@app.route('/dashboard')
+def dashboard():
+    return render_template('/dashboard/cp_base.html')
 
 
-@app.route("/info/detail/<id>")
-def detail(id):
+@app.route("/dashboard/cp_forum")
+def cp_forum():
+    title = ('FORUM')
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM info WHERE info_id=%s", (id,))
-    data = cur.fetchone()
-    return render_template('info/detailinfo.html', data=data)
+    cur.execute("SELECT * FROM tbl_forum")
+    data = cur.fetchall()
+    return render_template('/dashboard/cp_forum/index.html', data=data, title=title)
+
+
+@app.route("/dashboard/cp_forum/delete/<int:id>")
+def hapus_forum(id):
+    cur = mysql.connection.cursor()
+    cur.execute("DELETE FROM tbl_forum WHERE forum_id=%s", (id,))
+    mysql.connection.commit()
+    return redirect(url_for('cp_forum'))
+
+
+@app.route('/dashboard/cp_info')
+def cp_info():
+    title = ('INFO PUBLIK')
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM info")
+    data = cur.fetchall()
+    return render_template('/dashboard/cp_info/index.html', data=data, title=title)
+
+
+@app.route("/dashboard/cp_info/delete/<int:id>")
+def hapus_info(id):
+    cur = mysql.connection.cursor()
+    cur.execute("DELETE FROM info WHERE info_id=%s", (id,))
+    mysql.connection.commit()
+    return redirect(url_for('cp_info'))

@@ -85,9 +85,12 @@ def dashboard():
 # Forum
 @app.route("/forum")
 def forum():
+    #cur = mysql.connection.cursor()
+   # cur.execute(
+    #    "SELECT f.user_id, u.nama_user from users u JOIN tbl_forum f ON f.user_id = u.user_id WHERE u.user_id=%s", (id,))
+    #data = cur.fetchall()
     cur = mysql.connection.cursor()
-    cur.execute(
-        "SELECT f.user_id, u.nama_user from users u JOIN tbl_forum f ON f.user_id = u.user_id WHERE u.user_id=%s")
+    cur.execute("SELECT * from tbl_forum")
     data = cur.fetchall()
     return render_template('forum/index.html', data=data)
 
@@ -122,7 +125,7 @@ def tambahforum():
 @app.route("/forum/thread/<int:id>", methods=["GET"])
 def thread(id):
     cur = mysql.connection.cursor()
-    cur.execute("""SELECT * from tbl_forum WHERE forum_id=%s""", (id,))
+    cur.execute("SELECT * from tbl_forum WHERE forum_id=%s", (id,))
     forum = cur.fetchall()
     return render_template('forum/thread.html', forum=forum)
 
@@ -130,7 +133,7 @@ def thread(id):
 @app.route("/forum/threads/<int:id>", methods=["GET"])
 def threads(id):
     cur = mysql.connection.cursor()
-    cur.execute("""SELECT * from tbl_forum WHERE forum_id=%s""", (id,))
+    cur.execute("SELECT * from tbl_forum WHERE forum_id=%s", (id,))
     forum = cur.fetchall()
     return render_template('forum/threads.html', forum=forum)
 

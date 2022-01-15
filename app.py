@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, session, url_for, make_response
 import bcrypt
+from flask.typing import TemplateFilterCallable
 from werkzeug.utils import redirect
 from werkzeug.wrappers import response
 from flask_sqlalchemy import SQLAlchemy
@@ -164,8 +165,8 @@ def tambahinfo():
 
 @app.route("/pub_laporankunjungan/")
 def public_lapkun():
-    title = ('Laporan Kunjungan')
-    return render_template('/public/pub_lapkun/index.html')
+    title = ('LAPORAN KUNJUNGAN')
+    return render_template('/public/pub_lapkun/index.html', title=title)
 
 
 # dashboard / cpanel admin
@@ -206,3 +207,9 @@ def hapus_info(id):
     cur.execute("DELETE FROM info WHERE info_id=%s", (id,))
     mysql.connection.commit()
     return redirect(url_for('cp_info'))
+
+
+@app.route("/dashboard/cp_lapkun")
+def cp_lapkun():
+    title = ('LAPORAN KUNJUNGAN')
+    return render_template('/dashboard/cp_lapkun/index.html', title=title)

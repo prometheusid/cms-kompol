@@ -1,0 +1,31 @@
+{% extends '/dashboard/cp_base.html' %}
+{% block content %}
+<div class="container">
+    <div class="col">
+        <div class="row">
+
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Judul</th>
+                        <th scope="col">Tanggal</th>
+                        <th scope="col">author</th>
+                        <th scope="col">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Judul Laporan Kunjungan</td>
+                        <td>Tanggal dibuat</td>
+                        <td>Penulis laporan kunjungan</td>
+                        <td>
+                            <a href="#"><button class="btn btn-sm btn-danger">Hapus</button></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

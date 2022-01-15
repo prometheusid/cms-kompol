@@ -29,7 +29,7 @@ app.secret_key = '\xfd{H\xe5<\x95\xf9\xe3\x96.5\xd1\x01O<!\xd5\xa2\xa0\x9fR"\xa1
 
 @app.route("/")
 def pub_home():
-    title = ("KOMUNIKASi POLITIK")
+    title = ("KOMUNIKASI POLITIK")
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM info ORDER BY info_id DESC LIMIT 1")
     info = cur.fetchone()
@@ -160,6 +160,12 @@ def tambahinfo():
                     (author, judul, isi, waktu, penulis))
         mysql.connection.commit()
     return render_template('/public/pub_info/tambahinfo.html', title=title)
+
+
+@app.route("/pub_laporankunjungan/")
+def public_lapkun():
+    title = ('Laporan Kunjungan')
+    return render_template('/public/pub_lapkun/index.html')
 
 
 # dashboard / cpanel admin

@@ -3,38 +3,61 @@
 <div class="container">
     <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-top: 2rem">
         <h1 class="h3 mb-0 text-white-800">FORUM</h1>
-        <a href="{{ url_for('tambahforum') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                class="fas fa-plus"></i>&nbsp;
-            Tambah Baru</a>
     </div>
     <div class="card shadow mb-4">
         <div class="card-body">
             <p>
-                <h4>{{data['forum_judul']}}</h4>
+                <h4>{{data.forum_judul}}</h4>
             </p>
-            <p>{{data['forum_isi']|safe}}</p><br>
+            <p>{{data.forum_isi|safe}}</p><br>
             <div class="bottom">
-                <p style="margin-right: 1.5em">{{data['created_at']}}</p>
-                <p style="margin-right: 1.5em">Oleh : Nama Pembuat Thread</p>
+                <p style="margin-right: 1.5em">{{data.created_at}}</p>
+                <p style="margin-right: 1.5em">Oleh : {{data.nama_user}}</p>
                 <p class="comment-count">2 Comment</p>
-            </div>
-            <input class="textarea"></input>
-            <button class="button-comment btn btn-sm btn-primary">
-                add comment
-            </button>
-            <div class="comments">
-                <div class="comment-content">wow amazing, keep it up</div>
-                <div class="top-comment">
-                    <p class="user">user10</p>
-                    <p class="comment-ts">10/12/2022</p>
-                </div>
-                <div class="comment-content">Bagus banget,saya setuju</div>
-                <div class="top-comment">
-                    <p class="user">user200</p>
-                    <p class="comment-ts">11/12/2022</p>
-                </div>
             </div>
         </div>
     </div>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form action="/pub_forum/thread/" method="POST">
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="idKomen" name="idKomen" hidden>
+                    <input type="text" class="form-control" id="idForum" name="idForum" value="{{data['forum_id']}}" hidden>
+                    <textarea class="form-control" id="summernote" rows="3" name="komen"></textarea>
+                </div>
+                <button type="submit" name="submit" class="btn btn-primary">
+                    add comment
+                </button>
+            </form>
+            <br>
+            <br>
+            {% for column in data %}
+            <div class="comments">
+                <div class="bottom">
+                    <p style="margin-right: 1.5em">Oleh : {{data['nama_user']}}</p>
+                </div>
+                <p>{{data['komentar']|safe}}</p><br>
+            <div class="bottom">
+                <p style="margin-right: 1.5em">{{data['created_at']}}</p>
+            </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
+<script>
+    $('#summernote').summernote({
+        tabsize: 2,
+        height: 120,
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+    });
+</script>
 {% endblock %}

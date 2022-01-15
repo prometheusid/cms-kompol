@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, session, url_for, make_response
 import bcrypt
+from flask.typing import TemplateFilterCallable
 from werkzeug.utils import redirect
 from werkzeug.wrappers import response
 from flask_sqlalchemy import SQLAlchemy
@@ -29,7 +30,7 @@ app.secret_key = '\xfd{H\xe5<\x95\xf9\xe3\x96.5\xd1\x01O<!\xd5\xa2\xa0\x9fR"\xa1
 
 @app.route("/")
 def pub_home():
-    title = ("KOMUNIKASi POLITIK")
+    title = ("KOMUNIKASI POLITIK")
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM info ORDER BY info_id DESC LIMIT 1")
     info = cur.fetchone()
@@ -176,6 +177,12 @@ def tambahinfo():
     return render_template('/public/pub_info/tambahinfo.html', title=title)
 
 
+@app.route("/pub_laporankunjungan/")
+def public_lapkun():
+    title = ('LAPORAN KUNJUNGAN')
+    return render_template('/public/pub_lapkun/index.html', title=title)
+
+
 # dashboard / cpanel admin
 @app.route('/dashboard')
 def dashboard():
@@ -214,3 +221,9 @@ def hapus_info(id):
     cur.execute("DELETE FROM info WHERE info_id=%s", (id,))
     mysql.connection.commit()
     return redirect(url_for('cp_info'))
+
+
+@app.route("/dashboard/cp_lapkun")
+def cp_lapkun():
+    title = ('LAPORAN KUNJUNGAN')
+    return render_template('/dashboard/cp_lapkun/index.html', title=title)

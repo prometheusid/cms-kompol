@@ -161,7 +161,7 @@ def tambahforum():
 def public_info():
     title = ("INFO PUBLIK")
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM info")
+    cur.execute("SELECT * FROM info as A JOIN users as B ON A.user_id = B.user_id ORDER BY created_at DESC")
     data = cur.fetchall()
     return render_template('/public/pub_info/index.html', data=data, title=title)
 

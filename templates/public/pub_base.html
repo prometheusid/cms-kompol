@@ -61,8 +61,8 @@
                 </form>
                 <ul class="navbar-nav mb-2 mb-lg-0">
                     <li>
-                        <a class="ms-3" style="color: white" href="{{ url_for('login')}}"><i
-                                class="fas fa-user">&nbsp; {{session['name']}}</i></a>
+                        <a class="ms-3" style="color: white" href="{{ url_for('login')}}"><i class="fas fa-user">&nbsp;
+                                {{session['name']}}</i></a>
                     </li>
                 </ul>
             </div>
@@ -71,6 +71,9 @@
     <!-- end Navbar -->
     {% block content %}
     {% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    </script>
     <script src="https://kit.fontawesome.com/8da0a2e753.js" crossorigin="anonymous"></script>
 
 </body>

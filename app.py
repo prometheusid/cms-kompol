@@ -36,7 +36,7 @@ def pub_home():
     info = cur.fetchone()
     cur.execute("SELECT * FROM tbl_forum ORDER BY forum_id DESC LIMIT 1")
     data = cur.fetchone()
-    return render_template('/public/index2.html', data=data, info=info, title=title)
+    return render_template('/public/index.html', data=data, info=info, title=title)
 
 
 @app.route("/registrasi", methods=["GET", "POST"])

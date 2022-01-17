@@ -74,13 +74,13 @@ def login():
                 session['id'] = user['user_id']
                 session['name'] = user['nama_user']
                 session['email'] = user['email_user']
+                session['role'] = user['role_id']
                 # return render_template("/public/index.html")
-                if user['role_id'] == 0 :
+                if user['role_id'] == 0:
                     return redirect(url_for('dashboard'))
-                if user['role_id'] == 1 :
+                if user['role_id'] == 1:
                     return redirect(url_for('pub_home'))
-                
-                
+
             else:
                 return "Error password and email not match"
         else:
@@ -100,7 +100,8 @@ def logout():
 def public_forum():
     title = ("FORUM DISKUSI")
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * from tbl_forum as a JOIN users as b ON a.user_id = b.user_id WHERE b.user_id ORDER BY created_at DESC")
+    cur.execute(
+        "SELECT * from tbl_forum as a JOIN users as b ON a.user_id = b.user_id WHERE b.user_id ORDER BY created_at DESC")
     data = cur.fetchall()
     return render_template('/public/pub_forum/index.html', data=data, title=title)
 
@@ -118,12 +119,14 @@ def thread(id):
 
         # Get Count commentar
         count = mysql.connection.cursor()
-        count.execute("SELECT count('forum_id') FROM tbl_detail_forum  WHERE forum_id=%s", (id,))
+        count.execute(
+            "SELECT count('forum_id') FROM tbl_detail_forum  WHERE forum_id=%s", (id,))
         counting = count.fetchone()
 
         # Get data commentar
         com = mysql.connection.cursor()
-        com.execute("SELECT * FROM tbl_detail_forum as a JOIN users as b ON a.user_id = b.user_id WHERE a.forum_id=%s", (id,))
+        com.execute(
+            "SELECT * FROM tbl_detail_forum as a JOIN users as b ON a.user_id = b.user_id WHERE a.forum_id=%s", (id,))
         comment = com.fetchall()
         return render_template('/public/pub_forum/thread.html', data=data, comment=comment, counting=counting,  title=title)
     else:
@@ -161,7 +164,8 @@ def tambahforum():
 def public_info():
     title = ("INFO PUBLIK")
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM info as A JOIN users as B ON A.user_id = B.user_id ORDER BY created_at DESC")
+    cur.execute(
+        "SELECT * from info as a JOIN users as b ON a.user_id = b.user_id WHERE b.user_id ORDER BY created_at DESC")
     data = cur.fetchall()
     return render_template('/public/pub_info/index.html', data=data, title=title)
 
@@ -170,7 +174,8 @@ def public_info():
 def detail(id):
     title = ("INFO PUBLIK")
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM info WHERE info_id=%s", (id,))
+    cur.execute(
+        "SELECT * from info as a LEFT JOIN users as b ON a.user_id = b.user_id WHERE a.info_id=%s", (id,))
     data = cur.fetchone()
     return render_template('/public/pub_info/detail.html', data=data, title=title)
 
@@ -182,13 +187,12 @@ def tambahinfo():
         return render_template('/public/pub_info/tambahinfo.html', title=title)
     else:
         author = session['id']
-        penulis = session['name']
         judul = request.form['judul-info']
         isi = request.form['isi-info']
         waktu = datetime.now()
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO info (user_id, judul_info, isi_info, created_at, penulis) VALUES (%s,%s,%s,%s, %s)",
-                    (author, judul, isi, waktu, penulis))
+        cur.execute("INSERT INTO info (user_id, judul_info, isi_info, created_at) VALUES (%s,%s,%s,%s)",
+                    (author, judul, isi, waktu))
         mysql.connection.commit()
     return render_template('/public/pub_info/tambahinfo.html', title=title)
 
@@ -200,9 +204,13 @@ def public_lapkun():
 
 
 # dashboard / cpanel admin
-@app.route('/dashboard')
+@app.route("/dashboard/")
 def dashboard():
-    return render_template('/dashboard/cp_base.html')
+    user_role = session['role']
+    if user_role == 0:
+        return render_template('/dashboard/cp_base.html')
+    else:
+        return redirect(url_for('pub_home'))
 
 
 @app.route("/dashboard/cp_forum")

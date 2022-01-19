@@ -1,16 +1,10 @@
 {% extends '/public/pub_base.html' %} {% block content %}
 <section class="py-5">
   <div class="container-sm">
-    <div
-      class="d-sm-flex align-items-center justify-content-between mb-4"
-      style="margin-top: 2rem"
-    >
+    <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-top: 2rem">
       <h1 class="h3 mb-0 text-white-800">INFO PUBLIK</h1>
-      <a
-        href="{{ url_for('tambahinfo') }}"
-        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
-        ><i class="fas fa-plus"></i>&nbsp; Tambah Baru</a
-      >
+      <a href="{{ url_for('tambahinfo') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+          class="fas fa-plus"></i>&nbsp; Tambah Baru</a>
     </div>
     {% for row in data%}
 
@@ -18,7 +12,7 @@
       <div class="card-body">
         <ol>
           <li class="row">
-            <a href="/pub_info/detail/{{row['info_id']}}">
+            <a class="thread-link" href="/pub_info/detail/{{row['info_id']}}">
               <h4 class="forum-title">{{row['judul_info']}}</h4>
               <div class="bottom">
                 <p style="margin-right: 1.5em">{{row['created_at']}}</p>

@@ -1,0 +1,41 @@
+{% extends '/public/pub_base.html' %}
+{% block content %}
+<section class="py-5"></section>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form action="/pub_forum/update" method="POST">
+                {% for column in data %}
+                <input type="text" class="form-control" id="idForum" name="idForum" hidden>
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Judul Forum</label>
+                    <input type="text" class="form-control" id="judul" name="judulForum" value="{{column['forum_judul']}}">
+                </div>
+                <div class="mb-3">
+                    <textarea class="form-control" id="summernote" rows="3" name="content" value="{{column['forum_isi']}}"></textarea>
+                </div>
+                <button type="submit" name="submit" class="btn btn-primary">
+                    Simpan
+                </button>
+                {% endfor %}
+            </form>
+        </div>
+    </div>
+</div>
+</section>
+<script>
+    $('#summernote').summernote({
+        tabsize: 2,
+        height: 120,
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+    });
+</script>
+{% endblock %}

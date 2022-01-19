@@ -1,3 +1,4 @@
+from turtle import title
 from flask import Flask, render_template, request, session, url_for, make_response
 import bcrypt
 from flask.typing import TemplateFilterCallable
@@ -170,7 +171,27 @@ def tambahforum():
         cur.execute("INSERT INTO tbl_forum (forum_id, forum_judul, forum_isi, user_id, created_at) VALUES (%s,%s,%s,%s,%s)",
                     (idForum, judulForum, isi, ts, waktu))
         mysql.connection.commit()
-    return render_template('public/pub_forum/tambahforum.html', title=title)
+    return render_template('public/pub_forum/index.html', title=title)
+
+@app.route("/pub_forum/update/<int:id>", methods=["GET", "POST"])
+def updateforum(id):
+    title = ("FORUM DISKUSI")
+    if request.method == "GET":
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * from tbl_forum WHERE forum_id=%s", (id))
+        data = cur.fetchone()
+        return render_template('public/pub_forum/update.html', data=data, title=title)
+    else:
+        idForum = request.form['idForum']
+        judulForum = request.form['judulForum']
+        isi = request.form['content']
+        ts = session['id']
+        waktu = datetime.now()
+        cur = mysql.connection.cursor()
+        cur.execute("UPDATE tbl_forum (forum_id, forum_judul, forum_isi, user_id, created_at) VALUES (%s,%s,%s,%s,%s)",
+                    (idForum, judulForum, isi, ts, waktu))
+        mysql.connection.commit()
+    return render_template('public/pub_forum/thread/<int:id>')
 
 
 @app.route('/pub_info')

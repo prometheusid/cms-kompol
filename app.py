@@ -77,7 +77,7 @@ def login():
                 session['role'] = user['role_id']
                 # return render_template("/public/index.html")
                 if user['role_id'] == 0:
-                    return redirect(url_for('dashboard'))
+                    return redirect(url_for('pub_home'))
                 if user['role_id'] == 1:
                     return redirect(url_for('pub_home'))
 

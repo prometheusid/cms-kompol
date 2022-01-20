@@ -106,10 +106,9 @@ def public_forum():
     data = cur.fetchall()
 
     # Get Count commentar
-    uid = session['id']
     count = mysql.connection.cursor()
     count.execute(
-        "SELECT count('forum_id') FROM tbl_detail_forum  WHERE forum_id=%s", (uid,))
+        "SELECT count('forum_id') FROM tbl_detail_forum  WHERE forum_id")
     #counting = count.fetchone()
     num_of_items =  [v for v in count.fetchone().values()][0]
     return render_template('/public/pub_forum/index.html', counting=num_of_items, data=data, title=title)

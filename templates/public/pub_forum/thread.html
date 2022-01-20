@@ -3,7 +3,7 @@
 <section class="py-5">
 <div class="container">
     <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-top: 2rem">
-        <h1 class="h3 mb-0 text-white-800">{{title}}</h1>
+        <h1 class="h3 mb-0 text-white-800"></h1>
         {% if session['id'] ==  data.user_id %}
         <a
         href="/pub_forum/update/{{data.forum_id}}"
@@ -12,17 +12,17 @@
       >
       {% endif %}
     </div>
-        <div class="card shadow mb-4">
+        <div class="card shadow mb-4" style="background-color: #1abc9c;">
             <div class="card-body">
                 <p>
-                    <h4>{{data.forum_judul}}</h4>
+                    <h4 style="color: white;">{{data.forum_judul}}</h4>
                 </p>
                 <div class="bottom">
-                    <p style="margin-right: 1.5em">Oleh : {{data.nama_user}}</p>
+                    <p style="margin-right: 1.5em; color: white;">Oleh : {{data.nama_user}}</p>
                     {% if data.updated_at %}
-                        <p style="margin-right: 1.5em">Terakhir diperbaharui : {{data.updated_at}}</p>
+                        <p style="margin-right: 1.5em; color: white;">Terakhir diperbaharui : {{data.updated_at}}</p>
                     {% else %}
-                        <p style="margin-right: 1.5em">Terakhir diperbaharui : {{data.created_at}}</p>
+                        <p style="margin-right: 1.5em; color: white;">Terakhir diperbaharui : {{data.created_at}}</p>
                     {% endif %}
                 </div>
             </div>

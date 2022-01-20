@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col">
             <form action="/pub_forum/update/{{data.forum_id}}" method="POST">
-                <!-- <input type="text" class="form-control" id="idForum" name="idForum" value="{{data.forum_id}}" hidden> -->
+                <input type="text" class="form-control" id="idForum" name="idForum" value="{{data.forum_id}}" hidden>
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Judul Forum</label>
                     <input type="text" class="form-control" id="judul" name="judulForum" value="{{data.forum_judul}}">
@@ -22,7 +22,7 @@
 </div>
 </section>
 <script>
-    $('#summernote').summernote({
+    $('#summernote').summernote('insertText', value, {
         tabsize: 2,
         height: 120,
         toolbar: [

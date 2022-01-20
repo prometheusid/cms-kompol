@@ -104,10 +104,18 @@ def public_forum():
     cur.execute(
         "SELECT * from tbl_forum as a JOIN users as b ON a.user_id = b.user_id WHERE b.user_id ORDER BY created_at DESC")
     data = cur.fetchall()
-    return render_template('/public/pub_forum/index.html', data=data, title=title)
+
+    # Get Count commentar
+    uid = session['id']
+    count = mysql.connection.cursor()
+    count.execute(
+        "SELECT count('forum_id') FROM tbl_detail_forum  WHERE forum_id=%s", (uid,))
+    #counting = count.fetchone()
+    num_of_items =  [v for v in count.fetchone().values()][0]
+    return render_template('/public/pub_forum/index.html', counting=num_of_items, data=data, title=title)
 
 
-@app.route("/pub_forum/thread/<int:id>")
+@app.route("/pub_forum/thread/<id>")
 def thread(id):
     title = ("FORUM DISKUSI")
     # if request.method == 'GET':
@@ -122,14 +130,15 @@ def thread(id):
     count = mysql.connection.cursor()
     count.execute(
         "SELECT count('forum_id') FROM tbl_detail_forum  WHERE forum_id=%s", (id,))
-    counting = count.fetchone()
+    #counting = count.fetchone()
+    num_of_items =  [v for v in count.fetchone().values()][0]
 
     # Get data commentar
     com = mysql.connection.cursor()
     com.execute(
         "SELECT * FROM tbl_detail_forum as a JOIN users as b ON a.user_id = b.user_id WHERE a.forum_id=%s", (id,))
     comment = com.fetchall()
-    return render_template('/public/pub_forum/thread.html', data=data, comment=comment, counting=counting,  title=title)
+    return render_template('/public/pub_forum/thread.html', data=data, comment=comment, counting=num_of_items,  title=title, id=id)
     # else:
     #   idKomen = request.form['idKomen']
     #  idForum = request.form['idForum']
@@ -143,8 +152,8 @@ def thread(id):
     # return redirect(url_for('/public/pub_forum/thread.html', title=title))
 
 
-@app.route("/pub_forum/thread", methods=["POST"])
-def komentar():
+@app.route("/pub_forum/thread/<id>", methods=["POST"])
+def komentar(id):
     idKomen = request.form['idKomen']
     idForum = request.form['idForum']
     komen = request.form['komen']
@@ -154,7 +163,7 @@ def komentar():
     cur.execute("INSERT INTO tbl_detail_forum (id_detail_forum, forum_id, komentar, user_id, created_at) VALUES (%s,%s,%s,%s,%s)",
                 (idKomen, idForum, komen, komenUser, waktu))
     mysql.connection.commit()
-    return redirect(request.referrer)
+    return redirect(url_for('thread', id=id))
 
 
 @app.route("/pub_forum/tambah", methods=["GET", "POST"])
@@ -167,15 +176,16 @@ def tambahforum():
         judulForum = request.form['judulForum']
         isi = request.form['content']
         ts = session['id']
+        author = 'Author'
         waktu = datetime.now()
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO tbl_forum (forum_id, forum_judul, forum_isi, user_id, created_at) VALUES (%s,%s,%s,%s,%s)",
-                    (idForum, judulForum, isi, ts, waktu))
+        cur.execute("INSERT INTO tbl_forum (forum_id, forum_judul, forum_isi, user_id, author, created_at) VALUES (%s,%s,%s,%s,%s,%s)",
+                    (idForum, judulForum, isi, ts, author, waktu))
         mysql.connection.commit()
-    return render_template('public/pub_forum/index.html', title=title)
+    return redirect(url_for('public_forum'))
 
 
-@app.route("/pub_forum/update/<int:id>", methods=["GET", "POST"])
+@app.route("/pub_forum/update/<id>", methods=["GET", "POST"])
 def updateforum(id):
     title = ("FORUM DISKUSI")
     if request.method == "GET":
@@ -184,27 +194,15 @@ def updateforum(id):
         data = cur.fetchone()
         return render_template('public/pub_forum/update.html', data=data, title=title)
     else:
-        return render_template("public/pub_forum/thread/%s", (id))
-
-
-@app.route("/pub_forum/simpanupdate/<int:id>", methods=["GET", "POST"])
-def simpanupdate(id):
-    if request.method == "POST":
         fid = request.form['idForum']
         judulForum = request.form['judulForum']
         isi = request.form['content']
         waktu = datetime.now()
         cur = mysql.connection.cursor()
-        cur.execute("UPDATE tbl_forum SET forum_judul = %s, forum_isi = %s, user_id = %s, created_at = %s WHERE forum_id = %s",
+        cur.execute("UPDATE tbl_forum SET forum_judul = %s, forum_isi = %s, updated_at = %s WHERE forum_id = %s",
                     (judulForum, isi, waktu, fid))
         mysql.connection.commit()
-        return redirect(url_for('public_forum'))
-    else:
-        title = ("FORUM DISKUSI")
-        cur = mysql.connection.cursor()
-        cur.execute("SELECT * from tbl_forum WHERE forum_id=%s", (id,))
-        data = cur.fetchone()
-        return render_template("public/pub_forum/thread.html", data=data, title=title)
+    return redirect(url_for('thread', id=id))
 
 
 @app.route('/pub_info')

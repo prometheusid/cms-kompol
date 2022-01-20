@@ -1,7 +1,6 @@
 {% extends '/public/pub_base.html' %}
 {% block content %}
 <section class="py-5">
-<<<<<<< HEAD
 <div class="container">
     <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-top: 2rem">
         <h1 class="h3 mb-0 text-white-800">{{title}}</h1>
@@ -13,37 +12,27 @@
       >
       {% endif %}
     </div>
-    <div class="card shadow mb-4">
-        <div class="card-body">
-            <p>
-                <h4>{{data.forum_judul}}</h4>
-            </p>
-            <p>{{data.forum_isi|safe}}</p><br>
-            <div class="bottom">
-                <p style="margin-right: 1.5em">Terakhir diperbaharui : {{data.created_at}}</p>
-                <p style="margin-right: 1.5em">Oleh : {{data.nama_user}}</p>
-                <p class="comment-count">{{counting}} comment</p>
-            </div>
-=======
-    <div class="container">
-        <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-top: 2rem">
-            <h1 class="h3 mb-0 text-white-800">{{title}}</h1>
-            <a href="/pub_forum/update/{{data['forum_id']}}"
-                class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus"></i>&nbsp; Edit
-                Forum</a>
->>>>>>> 79f2648ecc44fd476a369cecf882f604427984b6
-        </div>
         <div class="card shadow mb-4">
             <div class="card-body">
                 <p>
                     <h4>{{data.forum_judul}}</h4>
                 </p>
-                <p>{{data.forum_isi|safe}}</p><br>
                 <div class="bottom">
-                    <p style="margin-right: 1.5em">Terakhir diperbaharui : {{data.created_at}}</p>
                     <p style="margin-right: 1.5em">Oleh : {{data.nama_user}}</p>
+                    {% if data.updated_at %}
+                        <p style="margin-right: 1.5em">Terakhir diperbaharui : {{data.updated_at}}</p>
+                    {% else %}
+                        <p style="margin-right: 1.5em">Terakhir diperbaharui : {{data.created_at}}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="bottom">
                     <p class="comment-count">{{counting}} comment</p>
                 </div>
+                <p>{{data.forum_isi|safe}}</p><br>
             </div>
         </div>
         <div class="card shadow mb-4">
@@ -57,6 +46,9 @@
                     <div class="bottom">
                         <p style="margin-right: 1.5em">Terakhir diperbaharui : {{column['created_at']}}</p>
                         <p style="margin-right: 1.5em">Oleh : {{column['nama_user']}}</p>
+                        {% if column.author == column.user_id %}
+                        <p style="margin-right: 1.5em" class="badge badge-primary">{{column['author']}}</p>
+                        {% endif %}
                     </div>
                 </div>
                 <hr>
@@ -64,7 +56,7 @@
                 <br>
                 <br>
                 {% if session['id'] %}
-                <form action="{{url_for('komentar')}}" method="POST">
+                <form action="{{url_for('komentar', id=id)}}" method="POST">
                     <div class="mb-3">
                         <input type="text" class="form-control" id="idKomen" name="idKomen" hidden>
                         <input type="text" class="form-control" id="idForum" name="idForum" value="{{data['forum_id']}}"
@@ -78,7 +70,6 @@
                 {% endif %}
             </div>
         </div>
-    </div>
 </section>
 <script>
     $('#summernote').summernote({

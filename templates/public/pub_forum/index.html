@@ -27,8 +27,16 @@
               <h4 class="forum-title">{{column['forum_judul']}}</h4>
               <br />
               <div class="bottom">
-                <p style="margin-right: 1.5em">{{column['created_at']}}</p>
-                <p class="comment-count">2 comments</p>
+                {% if data.updated_at %}
+                <p style="margin-right: 1.5em">
+                  Terakhir diperbaharui : {{column.updated_at}}
+                </p>
+                {% else %}
+                <p style="margin-right: 1.5em">
+                  Terakhir diperbaharui : {{column.created_at}}
+                </p>
+                {% endif %}
+                <p class="comment-count">{{counting}} comments</p>
               </div>
             </a>
           </li>

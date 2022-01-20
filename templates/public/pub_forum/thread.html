@@ -1,60 +1,59 @@
 {% extends '/public/pub_base.html' %}
 {% block content %}
 <section class="py-5">
-<div class="container">
-    <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-top: 2rem">
-        <h1 class="h3 mb-0 text-white-800">{{title}}</h1>
-        <a
-        href="/pub_forum/update/{{data.forum_id}}"
-        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
-        ><i class="fas fa-plus"></i>&nbsp; Edit Forum</a
-      >
-    </div>
-    <div class="card shadow mb-4">
-        <div class="card-body">
-            <p>
-                <h4>{{data.forum_judul}}</h4>
-            </p>
-            <p>{{data.forum_isi|safe}}</p><br>
-            <div class="bottom">
-                <p style="margin-right: 1.5em">Terakhir diperbaharui : {{data.created_at}}</p>
-                <p style="margin-right: 1.5em">Oleh : {{data.nama_user}}</p>
-                <p class="comment-count">{{counting}} comment</p>
-            </div>
+    <div class="container">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-top: 2rem">
+            <h1 class="h3 mb-0 text-white-800">{{title}}</h1>
+            <a href="/pub_forum/update/{{data['forum_id']}}"
+                class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus"></i>&nbsp; Edit
+                Forum</a>
         </div>
-    </div>
-    <div class="card shadow mb-4">
-        <div class="card-body">
-            {% for column in comment %}
-            <div class="comments">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <p>
+                    <h4>{{data.forum_judul}}</h4>
+                </p>
+                <p>{{data.forum_isi|safe}}</p><br>
                 <div class="bottom">
-                    
+                    <p style="margin-right: 1.5em">Terakhir diperbaharui : {{data.created_at}}</p>
+                    <p style="margin-right: 1.5em">Oleh : {{data.nama_user}}</p>
+                    <p class="comment-count">{{counting}} comment</p>
                 </div>
-                <p>{{column['komentar']|safe}}</p><br>
-            <div class="bottom">
-                <p style="margin-right: 1.5em">Terakhir diperbaharui : {{column['created_at']}}</p>
-                <p style="margin-right: 1.5em">Oleh : {{column['nama_user']}}</p>
             </div>
-            </div>
-            <hr>
-            {% endfor %}
-            <br>
-            <br>
-            {% if session['id'] %}
-            <form action="{{url_for('komentar')}}" method="POST">
-                <div class="mb-3">
-                    <input type="text" class="form-control" id="idKomen" name="idKomen" hidden>
-                    <input type="text" class="form-control" id="idForum" name="idForum" value="{{data['forum_id']}}" hidden>
-                    <textarea class="form-control" id="summernote" rows="3" name="komen"></textarea>
+        </div>
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                {% for column in comment %}
+                <div class="comments">
+                    <div class="bottom">
+
+                    </div>
+                    <p>{{column['komentar']|safe}}</p><br>
+                    <div class="bottom">
+                        <p style="margin-right: 1.5em">Terakhir diperbaharui : {{column['created_at']}}</p>
+                        <p style="margin-right: 1.5em">Oleh : {{column['nama_user']}}</p>
+                    </div>
                 </div>
-                <button type="submit" name="submit" class="btn btn-primary">
-                    add comment
-                </button>
-            </form>
-            {% endif %}
+                <hr>
+                {% endfor %}
+                <br>
+                <br>
+                {% if session['id'] %}
+                <form action="{{url_for('komentar')}}" method="POST">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="idKomen" name="idKomen" hidden>
+                        <input type="text" class="form-control" id="idForum" name="idForum" value="{{data['forum_id']}}"
+                            hidden>
+                        <textarea class="form-control" id="summernote" rows="3" name="komen"></textarea>
+                    </div>
+                    <button type="submit" name="submit" class="btn btn-primary">
+                        add comment
+                    </button>
+                </form>
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
 </section>
 <script>
     $('#summernote').summernote({

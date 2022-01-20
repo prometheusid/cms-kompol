@@ -4,27 +4,27 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <form action="/pub_forum/update" method="POST">
-                {% for column in data %}
-                <input type="text" class="form-control" id="idForum" name="idForum" hidden>
+            <form action="/pub_forum/simpanupdate/{{data['forum_id']}}" method="POST">
+                <input type="text" value="{{data['forum_id']}}" class="form-control" id="idForum" name="idForum" hidden>
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Judul Forum</label>
-                    <input type="text" class="form-control" id="judul" name="judulForum" value="{{column['forum_judul']}}">
+                    <input type="text" class="form-control" id="judul" name="judulForum"
+                        value="{{data['forum_judul']}}">
                 </div>
                 <div class="mb-3">
-                    <textarea class="form-control" id="summernote" rows="3" name="content" value="{{column['forum_isi']}}"></textarea>
+                    <textarea class="form-control" id="summernote" rows="3" name="content"></textarea>
                 </div>
                 <button type="submit" name="submit" class="btn btn-primary">
                     Simpan
                 </button>
-                {% endfor %}
             </form>
         </div>
     </div>
 </div>
 </section>
 <script>
-    $('#summernote').summernote({
+    var value = "{{data['forum_isi']}}"
+    $('#summernote').summernote('insertText', value, {
         tabsize: 2,
         height: 120,
         toolbar: [

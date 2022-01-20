@@ -6,11 +6,13 @@
       style="margin-top: 2rem"
     >
       <h1 class="h3 mb-0 text-white-800">FORUM</h1>
+      {% if session['id'] %}
       <a
         href="{{ url_for('tambahforum') }}"
         class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
         ><i class="fas fa-plus"></i>&nbsp; Tambah Baru</a
       >
+      {% endif %}
     </div>
     {% for column in data %}
     <div class="card shadow mb-4">

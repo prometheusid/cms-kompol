@@ -178,18 +178,17 @@ def updateforum(id):
     title = ("FORUM DISKUSI")
     if request.method == "GET":
         cur = mysql.connection.cursor()
-        cur.execute("SELECT * from tbl_forum WHERE forum_id=%s", (id))
+        cur.execute("SELECT * from tbl_forum WHERE forum_id=%s", (id,))
         data = cur.fetchone()
         return render_template('public/pub_forum/update.html', data=data, title=title)
     else:
-        idForum = request.form['idForum']
+        #idForum = request.form['idForum']
         judulForum = request.form['judulForum']
         isi = request.form['content']
-        ts = session['id']
         waktu = datetime.now()
         cur = mysql.connection.cursor()
-        cur.execute("UPDATE tbl_forum (forum_id, forum_judul, forum_isi, user_id, created_at) VALUES (%s,%s,%s,%s,%s)",
-                    (idForum, judulForum, isi, ts, waktu))
+        cur.execute("UPDATE tbl_forum (forum_judul, forum_isi, created_at) VALUES (%s,%s,%s) WHERE forum_id=%s",
+                    (id, judulForum, isi, waktu))
         mysql.connection.commit()
     return render_template('public/pub_forum/thread/<int:id>')
 

@@ -4,11 +4,13 @@
 <div class="container">
     <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-top: 2rem">
         <h1 class="h3 mb-0 text-white-800">{{title}}</h1>
+        {% if session['id'] ==  data.user_id %}
         <a
         href="/pub_forum/update/{{data.forum_id}}"
         class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
         ><i class="fas fa-plus"></i>&nbsp; Edit Forum</a
       >
+      {% endif %}
     </div>
     <div class="card shadow mb-4">
         <div class="card-body">

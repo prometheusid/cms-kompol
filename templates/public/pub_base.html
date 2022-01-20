@@ -94,15 +94,7 @@
                 </a>
 
                 <ul class="dropdown-menu">
-                  {% if session['id'] == false %}
-                  <li>
-                    <a
-                      class="dropdown-item nav-link"
-                      href="{{url_for('login')}}"
-                      >Login</a
-                    >
-                  </li>
-                  {% else %}
+                  {% if session['id'] %}
                   <li>
                     <a
                       class="dropdown-item nav-link"
@@ -119,6 +111,15 @@
                       class="dropdown-item nav-link"
                       href="{{url_for('logout')}}"
                       >Logout</a
+                    >
+                  </li>
+
+                  {% else %}
+                  <li>
+                    <a
+                      class="dropdown-item nav-link"
+                      href="{{url_for('login')}}"
+                      >Login</a
                     >
                   </li>
                   {% endif %}

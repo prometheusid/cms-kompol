@@ -1,0 +1,77 @@
+{% extends '/public/pub_base.html' %}
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-top: 2rem">
+            <h1 class="h3 mb-0 text-white-800"></h1>
+        </div>
+        <div class="card shadow mb-4" style="background-color: #1abc9c;">
+            <div class="card-body">
+                <p>
+                    <h4 style="color: white;">{{data.lapkun_judul}}</h4>
+                </p>
+                <div class="bottom">
+                    <p style="margin-right: 1.5em; color: white;">Oleh : {{data.nama_user}}</p>
+                    <p style="margin-right: 1.5em; color: white;">{{data.created_at}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="bottom">
+                    <p class="comment-count">{{counting}} comment</p>
+                </div>
+                <p>{{data.lapkun_isi|safe}}</p><br>
+            </div>
+        </div>
+        <!-- <div class="card shadow mb-4">
+            <div class="card-body">
+                {% for column in comment %}
+                <div class="comments">
+                    <div class="bottom">
+                    </div>
+                    <p>{{column['komentar']|safe}}</p><br>
+                    <div class="bottom">
+                        <p style="margin-right: 1.5em">Terakhir diperbaharui : {{column['created_at']}}</p>
+                        <p style="margin-right: 1.5em">Oleh : {{column['nama_user']}}</p>
+                        {% if column.author == column.user_id %}
+                        <p style="margin-right: 1.5em" class="badge badge-primary">{{column['author']}}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <hr>
+                {% endfor %}
+                <br>
+                <br>
+                {% if session['id'] %}
+                <form action="{{url_for('komentar', id=id)}}" method="POST">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="idKomen" name="idKomen" hidden>
+                        <input type="text" class="form-control" id="idForum" name="idForum" value="{{data['forum_id']}}"
+                            hidden>
+                        <textarea class="form-control" id="summernote" rows="3" name="komen"></textarea>
+                    </div>
+                    <button type="submit" name="submit" class="btn btn-primary">
+                        add comment
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+        </div> -->
+</section>
+<!-- <script>
+    $('#summernote').summernote({
+        tabsize: 2,
+        height: 120,
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+    });
+</script> -->
+{% endblock %}

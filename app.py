@@ -111,7 +111,7 @@ def public_forum():
     count.execute(
         "SELECT count('forum_id') FROM tbl_detail_forum  WHERE forum_id")
     #counting = count.fetchone()
-    num_of_items =  [v for v in count.fetchone().values()][0]
+    num_of_items = [v for v in count.fetchone().values()][0]
     return render_template('/public/pub_forum/index.html', counting=num_of_items, data=data, title=title)
 
 
@@ -131,7 +131,7 @@ def thread(id):
     count.execute(
         "SELECT count('forum_id') FROM tbl_detail_forum  WHERE forum_id=%s", (id,))
     #counting = count.fetchone()
-    num_of_items =  [v for v in count.fetchone().values()][0]
+    num_of_items = [v for v in count.fetchone().values()][0]
 
     # Get data commentar
     com = mysql.connection.cursor()
@@ -245,8 +245,38 @@ def tambahinfo():
 @app.route("/pub_laporankunjungan/")
 def public_lapkun():
     title = ('LAPORAN KUNJUNGAN')
-    return render_template('/public/pub_lapkun/index.html', title=title)
+    cur = mysql.connection.cursor()
+    cur.execute(
+        "SELECT * FROM tbl_lapkun as a JOIN users as b ON a.user_id = b.user_id WHERE b.user_id ORDER BY created_at DESC")
+    data = cur.fetchall()
+    return render_template('/public/pub_lapkun/index.html', data=data, title=title)
 
+
+@app.route("/pub_laporankunjungan/thread/<int:id>")
+def lapkun_thread(id):
+    title = ('LAPORAN KUNJUNGAN')
+    cur = mysql.connection.cursor()
+    cur.execute(
+        "SELECT * FROM tbl_lapkun as a LEFT JOIN users as b ON a.user_id = b.user_id WHERE a.lapkun_id=%s", (id,))
+    data = cur.fetchone()
+    return render_template("/public/pub_lapkun/thread.html", data=data, title=title)
+
+
+@app.route("/pub_laporankunjungan/tambahlapkun", methods=["GET", "POST"])
+def tambahlapkun():
+    title = ("LAPORAN KUNJUNGAN")
+    if request.method == 'GET':
+        return render_template('/public/pub_lapkun/tambahlapkun.html', title=title)
+    else:
+        author = session['id']
+        judul = request.form['lapkun-judul']
+        isi = request.form['lapkun-isi']
+        waktu = datetime.now()
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO tbl_lapkun (user_id, lapkun_judul, lapkun_isi, created_at) VALUES (%s,%s,%s,%s)",
+                    (author, judul, isi, waktu))
+        mysql.connection.commit()
+    return render_template('/public/pub_lapkun/tambahlapkun.html', title=title)
 
 # dashboard / cpanel admin
 @app.route("/dashboard/")

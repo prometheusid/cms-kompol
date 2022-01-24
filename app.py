@@ -49,14 +49,15 @@ def registrasi():
         email = request.form['email']
         password = request.form['password'].encode('utf-8')
         hash_password = bcrypt.hashpw(password, bcrypt.gensalt())
+        role_id = 2
 
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO users (nama_user, email_user, password) VALUES (%s,%s,%s)",
-                    (name, email, hash_password,))
+        cur.execute("INSERT INTO users (nama_user, email_user, password, role_id) VALUES (%s,%s,%s,%s)",
+                    (name, email, hash_password, role_id))
         mysql.connection.commit()
         session['name'] = request.form['name']
         session['email'] = request.form['email']
-        return redirect(url_for('pub_home'))
+        return redirect(url_for('login'))
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -76,11 +77,11 @@ def login():
                 session['name'] = user['nama_user']
                 session['email'] = user['email_user']
                 session['role'] = user['role_id']
-                # return render_template("/public/index.html")
-                if user['role_id'] == 0:
-                    return redirect(url_for('pub_home'))
-                if user['role_id'] == 1:
-                    return redirect(url_for('pub_home'))
+                return redirect(url_for('pub_home'))
+                #if user['role_id'] == 0:
+                 #   return redirect(url_for('pub_home'))
+                #if user['role_id'] == 1:
+                 #   return redirect(url_for('pub_home'))
 
             else:
                 return "Error password and email not match"
@@ -251,11 +252,35 @@ def public_lapkun():
 @app.route("/dashboard/")
 def dashboard():
     user_role = session['role']
-    if user_role == 0:
-        return render_template('/dashboard/cp_base.html')
-    else:
+    if user_role == 4 :
         return redirect(url_for('pub_home'))
+    else:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT a.nama_user, a.role_id, b.role_id, b.role_user FROM users as a JOIN role_users as b ON a.role_id = b.role_id JOIN tbl_partai as c ON a.partai_id = c.partai_id WHERE a.role_id")
+        data = cur.fetchone()
+        return render_template('/dashboard/cp_base.html', data=data )
 
+@app.route("/dashboard/cp_anggota", methods=["GET", "POST"])
+def cp_anggota():
+    title = ("TAMBAH ANGGOTA")
+    if request.method == 'GET':
+        par = mysql.connection.cursor()
+        par.execute("SELECT a.partai_id, b.partai_id, b.nama_partai FROM users as a JOIN tbl_partai as b ON b.partai_id = a.partai_id WHERE a.user_id")
+        data = par.fetchone()
+        return render_template('dashboard/cp_anggota/index.html', data=data)
+    else:
+        name = request.form['name']
+        email = request.form['email']
+        password = request.form['password'].encode('utf-8')
+        hash_password = bcrypt.hashpw(password, bcrypt.gensalt())
+        partai = request.form['partai']
+
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO tbl_anggota_partai (nama_anggota, email_anggota, password_anggota, partai_id) VALUES (%s,%s,%s,%s)",
+                    (name, email, hash_password, partai))
+        mysql.connection.commit()
+    #return render_template('dashboard/cp_anggota/index.html')
+        
 
 @app.route("/dashboard/cp_forum")
 def cp_forum():

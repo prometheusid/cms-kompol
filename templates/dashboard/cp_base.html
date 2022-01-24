@@ -55,7 +55,7 @@
                 <!-- Sidebar user (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="info">
-                        <a href="#" class="d-block"><i class="fas fa-user">&nbsp; {{session['name']}}</i></a>
+                        <a href="#" class="d-block"><i class="fas fa-user">&nbsp; {{session['name']}} {{data.role_id}}</i></a>
                     </div>
                 </div>
 
@@ -86,6 +86,21 @@
                         </li>
                     </ul>
                 </nav>
+                <hr>
+                {% if data.role_id == 2 %}
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                        data-accordion="false">
+                        <li class="nav-item">
+                            <a href="{{ url_for('cp_anggota')}}" class="nav-link">
+                                <p>
+                                    Anggota Partai
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                {% endif %}
                 <!-- /.sidebar-menu -->
             </div>
             <!-- /.sidebar -->
